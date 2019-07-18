@@ -1,5 +1,6 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.exception.NoPositionException;
 import com.thoughtworks.parking_lot.model.ParkingOrder;
 import com.thoughtworks.parking_lot.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class ParkingOrderController {
     private ParkingOrderService parkingOrderService;
 
     @PostMapping
-    public ParkingOrder add(@RequestBody ParkingOrder parkingOrder) {
+    public ParkingOrder add(@RequestBody ParkingOrder parkingOrder) throws NoPositionException {
         return parkingOrderService.add(parkingOrder);
     }
 
