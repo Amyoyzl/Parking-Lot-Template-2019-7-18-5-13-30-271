@@ -7,13 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +29,7 @@ public class ParkingLotControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
+    @MockBean
     private ParkingLotService parkingLotService;
 
     @Test
@@ -42,6 +45,14 @@ public class ParkingLotControllerTest {
                 .content(new ObjectMapper().writeValueAsString(parkingLot))
                 .contentType(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk()).andExpect(jsonPath("$.name", is(parkingLot.getName())));
+        verify(parkingLotService).add(any());
 
+    }
+
+    @Test
+    public void should_delete_parkingLot() throws Exception {
+        ResultActions result = mvc.perform(delete("/parkingLots/name"));
+        result.andExpect(status().isOk());
+        verify(parkingLotService).delete(anyString());
     }
 }

@@ -7,25 +7,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "parking_lot")
 public class ParkingLot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
-    @Column(unique = true, nullable = false)
+    @Id
     private String name;
 
     @Check(constraints = "capacity>=0")
     private int capacity;
 
     private String location;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
