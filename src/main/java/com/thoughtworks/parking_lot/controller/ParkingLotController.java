@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/parkingLots")
 public class ParkingLotController {
@@ -18,9 +20,14 @@ public class ParkingLotController {
         return parkingLotService.add(parkingLot);
     }
 
-    @DeleteMapping("{name}")
+    @DeleteMapping("/{name}")
     public void deleteParkingLot(@PathVariable String name) {
         parkingLotService.delete(name);
+    }
+
+    @GetMapping(params = "page")
+    public List<ParkingLot> getParkingLotByPage(@RequestParam int page) {
+        return parkingLotService.getAllByPage(page);
     }
 
 }

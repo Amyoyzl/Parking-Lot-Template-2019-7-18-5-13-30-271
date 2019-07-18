@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -43,5 +45,21 @@ public class ParkingLotRepositoryTest {
         boolean exist = repository.findById(parkingLot.getName()).isPresent();
 
         assertFalse(exist);
+    }
+
+    @Test
+    public void should_return_parkingLots_by_page() {
+        ParkingLot parkingLot1 = new ParkingLot();
+        parkingLot1.setName("parkingLot1");
+        parkingLot1.setCapacity(6);
+        parkingLot1.setLocation("zhuhai");
+        repository.save(parkingLot1);
+        ParkingLot parkingLot2 = new ParkingLot();
+        parkingLot2.setName("parkingLot2");
+        parkingLot2.setCapacity(6);
+        parkingLot2.setLocation("zhuhai");
+        repository.save(parkingLot2);
+
+        List<ParkingLot> parkingLots = repository.findAll();
     }
 }

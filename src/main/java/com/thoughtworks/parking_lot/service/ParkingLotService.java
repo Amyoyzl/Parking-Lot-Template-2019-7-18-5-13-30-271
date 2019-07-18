@@ -5,6 +5,9 @@ import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ParkingLotService {
 
@@ -17,5 +20,9 @@ public class ParkingLotService {
 
     public void delete(String name) {
         repository.deleteById(name);
+    }
+
+    public List<ParkingLot> getAllByPage(int page) {
+        return repository.findAll().stream().skip((page-1)*15).limit(15).collect(Collectors.toList());
     }
 }
