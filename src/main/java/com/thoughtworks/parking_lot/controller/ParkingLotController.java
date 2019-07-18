@@ -35,4 +35,9 @@ public class ParkingLotController {
         return parkingLotService.getById(name);
     }
 
+    @PutMapping(params = {"capacity", "name"})
+    public ParkingLot update(@RequestParam int capacity, @RequestParam String name) {
+        return parkingLotService.updateCapacity(capacity, name);
+    }
+
 }

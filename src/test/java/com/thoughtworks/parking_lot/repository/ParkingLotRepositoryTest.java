@@ -10,8 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -65,5 +64,15 @@ public class ParkingLotRepositoryTest {
     @Test
     public void should_return_parkingLots_by_page() {
         List<ParkingLot> parkingLots = repository.findAll();
+    }
+
+    @Test
+    public void should_update_parkingLot() {
+        ParkingLot parkingLot4 = repository.findById(parkingLot.getName()).get();
+        parkingLot4.setCapacity(3);
+        ParkingLot fetch = repository.save(parkingLot4);
+
+        assertEquals(fetch.getLocation(), parkingLot4.getLocation());
+        assertNotEquals(fetch.getCapacity(), parkingLot.getCapacity());
     }
 }

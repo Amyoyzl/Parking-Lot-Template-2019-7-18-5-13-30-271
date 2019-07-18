@@ -34,4 +34,10 @@ public class ParkingLotService {
         }
         return null;
     }
+
+    public ParkingLot updateCapacity(int capacity, String name) {
+        ParkingLot parkingLot = getById(name);
+        parkingLot.setCapacity(capacity);
+        return repository.save(parkingLot);
+    }
 }

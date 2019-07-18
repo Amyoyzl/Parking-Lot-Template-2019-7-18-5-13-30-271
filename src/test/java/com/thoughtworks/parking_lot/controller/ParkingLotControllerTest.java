@@ -97,4 +97,15 @@ public class ParkingLotControllerTest {
         verify(parkingLotService).getById(anyString());
     }
 
+    @Test
+    public void should_update_parkingLot_capacity() throws Exception {
+        when(parkingLotService.updateCapacity(anyInt(), anyString())).thenReturn(parkingLot);
+        ResultActions resultActions = mvc.perform(put("/parkingLots")
+                .param("capacity", "3").param("name","parkingLot"));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("parkingLot")))
+                .andExpect(jsonPath("$.capacity", is(3)));
+        verify(parkingLotService).updateCapacity(anyInt(), anyString());
+    }
+
 }
