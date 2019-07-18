@@ -30,4 +30,9 @@ public class ParkingLotController {
         return parkingLotService.getAllByPage(page);
     }
 
+    @GetMapping("/{name}")
+    public ParkingLot getById(@PathVariable String name) {
+        return parkingLotService.getById(name);
+    }
+
 }

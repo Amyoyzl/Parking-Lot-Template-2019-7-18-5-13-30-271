@@ -86,4 +86,15 @@ public class ParkingLotControllerTest {
                 .andExpect(jsonPath("$[1].capacity", is(parkingLots.get(1).getCapacity())));
         verify(parkingLotService).getAllByPage(anyInt());
     }
+
+    @Test
+    public void should_get_parkingLot_by_id() throws Exception {
+        when(parkingLotService.getById(anyString())).thenReturn(parkingLot);
+        ResultActions resultActions = mvc.perform(get("/parkingLots/{id}", anyInt()));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(parkingLot.getName())))
+                .andExpect(jsonPath("$.capacity", is(parkingLot.getCapacity())));
+        verify(parkingLotService).getById(anyString());
+    }
+
 }

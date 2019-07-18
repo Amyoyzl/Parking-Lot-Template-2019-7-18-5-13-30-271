@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,5 +25,13 @@ public class ParkingLotService {
 
     public List<ParkingLot> getAllByPage(int page) {
         return repository.findAll().stream().skip((page-1)*15).limit(15).collect(Collectors.toList());
+    }
+
+    public ParkingLot getById(String name) {
+        Optional<ParkingLot> optional = repository.findById(name);
+        if(optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
     }
 }
