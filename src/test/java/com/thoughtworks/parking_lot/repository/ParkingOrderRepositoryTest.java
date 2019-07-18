@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Timestamp;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -40,5 +40,18 @@ public class ParkingOrderRepositoryTest {
 
         assertEquals(fetch.getName(), parkingOrder4.getName());
         assertEquals(fetch.getNumber(), parkingOrder4.getNumber());
+    }
+
+    @Test
+    public void should_update_parkingOrder() {
+        ParkingOrder parkingOrder4 = repository.findById(1L).get();
+        parkingOrder4.setEndTime(new Timestamp(System.currentTimeMillis()));
+        parkingOrder4.setState(false);
+
+        ParkingOrder fetch = repository.save(parkingOrder4);
+
+        assertEquals(fetch.getName(), parkingOrder4.getName());
+        assertFalse(fetch.getState());
+        assertNotNull(fetch.getEndTime());
     }
 }

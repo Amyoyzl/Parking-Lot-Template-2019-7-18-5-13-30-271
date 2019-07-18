@@ -16,9 +16,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.sql.Timestamp;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,5 +51,16 @@ public class ParkingOrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsBytes(parkingOrder)));
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(parkingOrder.getName())));
+        verify(parkingOrderService).add(any());
+    }
+
+    @Test
+    public void should_update_parkingOrder() throws Exception {
+        parkingOrderService.add(parkingOrder);
+        parkingOrder.setEndTime(new Timestamp(System.currentTimeMillis()));
+        parkingOrder.setState(false);
+        when(parkingOrderService.update(anyInt())).thenReturn(parkingOrder);
+        ResultActions resultActions = mvc.perform(put("/orders/1"));
+        resultActions.andExpect(status().isOk());
     }
 }

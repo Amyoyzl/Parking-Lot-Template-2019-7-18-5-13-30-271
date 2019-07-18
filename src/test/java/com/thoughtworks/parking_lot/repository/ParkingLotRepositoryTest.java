@@ -75,4 +75,5 @@ public class ParkingLotRepositoryTest {
         assertEquals(fetch.getLocation(), parkingLot4.getLocation());
         assertNotEquals(fetch.getCapacity(), parkingLot.getCapacity());
     }
+
 }
